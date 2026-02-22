@@ -1,4 +1,4 @@
-# Pinky-swear
+# Pinky-swear (WIP)
 
 Decentralized escrow dApp built on Ethereum.
 
