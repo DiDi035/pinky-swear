@@ -40,4 +40,4 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Slither static analysis
-        run: uvx slither . --fail-high
+        run: uvx --from slither-analyzer slither . --fail-high
