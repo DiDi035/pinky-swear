@@ -43,3 +43,4 @@ jobs:
           ignore-compile: true
           fail-on: high
           target: contracts/
+          slither-args: --hardhat-artifacts-directory artifacts
