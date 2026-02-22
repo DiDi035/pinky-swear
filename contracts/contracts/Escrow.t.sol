@@ -5,13 +5,12 @@ import {Escrow} from "./Escrow.sol";
 import {EscrowFactory} from "./EscrowFactory.sol";
 import {Test} from "forge-std/Test.sol";
 
-/// Helper so the buyer is a contract that can send ETH (Hardhat prank may not forward value from test contract).
 contract EscrowBuyerHelper {
     function deposit(Escrow escrow) external payable {
         escrow.deposit{value: msg.value}();
     }
 
-    receive() external payable {} // allow receiving refund
+    receive() external payable {}
 }
 
 contract EscrowTest is Test {
@@ -23,7 +22,7 @@ contract EscrowTest is Test {
     uint256 constant AMOUNT = 1 ether;
     uint256 constant DEADLINE_OFFSET = 3600;
 
-    address buyer; // set in setUp to address(buyerHelper)
+    address buyer;
 
     function setUp() public {
         buyerHelper = new EscrowBuyerHelper();
@@ -32,7 +31,7 @@ contract EscrowTest is Test {
         address escrowAddr = factory.createEscrow(buyer, seller, AMOUNT, DEADLINE_OFFSET);
         escrow = Escrow(payable(escrowAddr));
         vm.deal(buyer, AMOUNT);
-        vm.deal(address(this), 1000 ether); // test contract sends value when calling helper
+        vm.deal(address(this), 1000 ether);
     }
 
     function test_GetDetails_AfterInit() public view {

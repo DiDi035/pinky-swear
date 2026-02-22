@@ -123,7 +123,7 @@ describe("Escrow (integration)", function () {
       const sellerAfter = await ethers.provider.getBalance(await seller.getAddress());
       expect(sellerAfter - sellerBefore).to.equal(AMOUNT - gasSpent);
       const details = await escrow.getDetails();
-      expect(details[4]).to.equal(2); // Status.CONFIRMED enum value
+      expect(details[4]).to.equal(2); // Status.CONFIRMED
     });
 
     it("Should emit Confirmed when both confirmed", async function () {
