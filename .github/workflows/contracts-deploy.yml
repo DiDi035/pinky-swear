@@ -37,7 +37,7 @@ jobs:
           SEPOLIA_RPC_URL: ${{ secrets.SEPOLIA_RPC_URL }}
           SEPOLIA_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
           ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
-        run: npm run deploy:sepolia
+        run: echo "y" | npm run deploy:sepolia
 
       - name: Show deployment addresses
         run: cat ignition/deployments/chain-11155111/deployed_addresses.json || echo "No deployment found"
