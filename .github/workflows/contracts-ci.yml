@@ -36,8 +36,13 @@ jobs:
       - name: Run tests and generate gas stats
         run: npx hardhat test --gas-stats
 
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v5
-
-      - name: Slither static analysis
-        run: uvx --from slither-analyzer slither . --fail-high
+      # TODO: Re-enable Slither once crytic-compile supports Hardhat 3 (or find a workaround later)
+      # See: https://github.com/crytic/crytic-compile/issues
+      # - name: Setup Foundry
+      #   uses: foundry-rs/foundry-toolchain@v1
+      #
+      # - name: Setup uv
+      #   uses: astral-sh/setup-uv@v5
+      #
+      # - name: Slither static analysis
+      #   run: uvx --from slither-analyzer slither . --fail-high
