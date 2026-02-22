@@ -8,7 +8,9 @@
     "test:sol": "hardhat test solidity",
     "test:ts": "hardhat test mocha",
     "test:gas": "hardhat test --gas-stats",
-    "clean": "hardhat clean"
+    "clean": "hardhat clean",
+    "deploy:local": "hardhat --build-profile production ignition deploy ignition/modules/EscrowFactory.ts --network hardhatMainnet",
+    "deploy:sepolia": "hardhat --build-profile production ignition deploy ignition/modules/EscrowFactory.ts --network sepolia --verify"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.4",
