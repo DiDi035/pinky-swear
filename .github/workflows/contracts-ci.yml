@@ -36,11 +36,8 @@ jobs:
       - name: Run tests and generate gas stats
         run: npx hardhat test --gas-stats
 
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+
       - name: Slither static analysis
-        uses: crytic/slither-action@v0.4.2
-        with:
-          node-version: "22"
-          ignore-compile: true
-          fail-on: high
-          target: contracts/
-          slither-args: --hardhat-artifacts-directory artifacts
+        run: uvx slither . --fail-high
