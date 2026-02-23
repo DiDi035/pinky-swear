@@ -1,6 +1,6 @@
-import { readFileSync, writeFileSync, createReadStream } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync, createReadStream } from "node:fs";
 import { createInterface } from "node:readline";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { ethers } from "ethers";
 
 const NETWORKS: Record<string, { chainId: number; rpcEnvVar: string }> = {
@@ -77,10 +77,17 @@ async function main() {
 
   writeFileSync(deploymentsPath, JSON.stringify(deployments, null, 2) + "\n");
 
+  const artifactPath = resolve("artifacts/contracts/EscrowFactory.sol/EscrowFactory.json");
+  const artifact = JSON.parse(readFileSync(artifactPath, "utf-8"));
+  const abiPath = resolve(`deployments/${network}/EscrowFactory.abi.json`);
+  mkdirSync(dirname(abiPath), { recursive: true });
+  writeFileSync(abiPath, JSON.stringify(artifact.abi, null, 2) + "\n");
+
   console.log(`Recorded factory deployment:`);
   console.log(`  Address:    ${address}`);
   console.log(`  Block:      ${startBlock}`);
   console.log(`  Version:    ${maxVersion + 1}`);
+  console.log(`  ABI:        ${abiPath}`);
   console.log(`  Network:    ${network}`);
 }
 
