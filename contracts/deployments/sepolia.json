@@ -3,8 +3,14 @@
     {
       "address": "0x806cD09aAE4DE363A886F4B742Be9fF95e891e9d",
       "version": 1,
-      "active": true,
+      "active": false,
       "startBlock": 10314567
+    },
+    {
+      "address": "0xd22f54b326135C020730d124034165EF6aBc53BC",
+      "version": 2,
+      "active": true,
+      "startBlock": 10321745
     }
   ]
 }
