@@ -1,0 +1,10 @@
+{
+  "factories": [
+    {
+      "address": "0x806cD09aAE4DE363A886F4B742Be9fF95e891e9d",
+      "version": 1,
+      "active": true,
+      "startBlock": 10314567
+    }
+  ]
+}

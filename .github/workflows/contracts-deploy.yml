@@ -18,6 +18,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: contracts
@@ -42,8 +44,24 @@ jobs:
       - name: Show deployment addresses
         run: cat ignition/deployments/chain-11155111/deployed_addresses.json || echo "No deployment found"
 
+      - name: Record deployment
+        env:
+          SEPOLIA_RPC_URL: ${{ secrets.SEPOLIA_RPC_URL }}
+        run: npx tsx scripts/record-deployment.ts ${{ github.event.inputs.network }}
+
       - uses: actions/upload-artifact@v4
         with:
           name: deployment-${{ github.run_id }}
           path: contracts/ignition/deployments/
           retention-days: 90
+
+      - name: Commit deployment record
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add contracts/deployments/${{ github.event.inputs.network }}.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Record factory deployment to ${{ github.event.inputs.network }}"
+          git pull --rebase
+          git push
