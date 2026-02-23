@@ -24,7 +24,6 @@ async function main() {
     process.exit(1);
   }
 
-  // 1. Read deployed address from Ignition output
   const ignitionDir = resolve(`ignition/deployments/chain-${chainId}`);
   const addressesPath = resolve(ignitionDir, "deployed_addresses.json");
   const addresses = JSON.parse(readFileSync(addressesPath, "utf-8"));
@@ -34,7 +33,6 @@ async function main() {
     process.exit(1);
   }
 
-  // 2. Read tx hash from Ignition journal
   const journalPath = resolve(ignitionDir, "journal.jsonl");
   const txHash = await findDeployTxHash(journalPath);
   if (!txHash) {
@@ -42,7 +40,6 @@ async function main() {
     process.exit(1);
   }
 
-  // 3. Get block number from tx receipt
   const provider = new ethers.JsonRpcProvider(rpcUrl);
   const receipt = await provider.getTransactionReceipt(txHash);
   if (!receipt) {
@@ -51,7 +48,6 @@ async function main() {
   }
   const startBlock = receipt.blockNumber;
 
-  // 4. Update deployments JSON
   const deploymentsPath = resolve(`deployments/${network}.json`);
   let deployments: { factories: Array<{ address: string; version: number; active: boolean; startBlock: number }> };
   try {
