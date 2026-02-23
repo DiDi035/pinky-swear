@@ -21,8 +21,14 @@
     {
       "address": "0xf9D242803832B413821b59a2CB2F1927B7a9eAeb",
       "version": 4,
-      "active": true,
+      "active": false,
       "startBlock": 10321836
+    },
+    {
+      "address": "0x242CEd94844e1C89F6022dE5a7b1a357859513A8",
+      "version": 5,
+      "active": true,
+      "startBlock": 10321876
     }
   ]
 }
