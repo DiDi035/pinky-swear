@@ -1,36 +1,16 @@
 import { ethers } from "ethers";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 
 import { prisma } from "./db";
 import { EscrowStatus, EventName } from "../generated/prisma/client";
+import {
+  deployments,
+  createHTTPFactoryContracts,
+  jsonRpcProvider,
+  createHTTPEscrowContracts,
+} from "./contracts_helper";
 
 export async function startIndexer() {
   console.log("[DEBUG] Starting indexer...");
-  const deployments = JSON.parse(
-    readFileSync(
-      resolve(
-        __dirname,
-        `../../contracts/deployments/${process.env.NETWORK}.json`,
-      ),
-      "utf-8",
-    ),
-  );
-
-  const escrowAbis = JSON.parse(
-    readFileSync(
-      resolve(__dirname, `../../contracts/deployments/abis/Escrow.json`),
-      "utf-8",
-    ),
-  );
-  const escrowFactoryAbis = JSON.parse(
-    readFileSync(
-      resolve(__dirname, `../../contracts/deployments/abis/EscrowFactory.json`),
-      "utf-8",
-    ),
-  );
-
-  const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
 
   const factoryAddressToStartBlock = deployments.factories.reduce(
     (acc: { [key: string]: number }, factory: any) => {
@@ -39,9 +19,8 @@ export async function startIndexer() {
     },
     {},
   );
-  const escrowFactoryContracts = deployments.factories.map(
-    (factory: any) =>
-      new ethers.Contract(factory.address, escrowFactoryAbis, provider),
+  const escrowFactoryContracts = deployments.factories.map((factory: any) =>
+    createHTTPFactoryContracts(factory.address),
   );
 
   let indexerState = await prisma.indexerState.findFirst();
@@ -59,22 +38,18 @@ export async function startIndexer() {
 
   console.log("[DEBUG] Starting backfill...");
   await backfill(
-    provider,
     lastIndexedBlock,
     factoryAddressToStartBlock,
     escrowFactoryContracts,
-    escrowAbis,
   );
 }
 
 async function backfill(
-  provider: ethers.JsonRpcProvider,
   lastIndexedBlock: number,
   factoryAddressToStartBlock: { [key: string]: number },
   escrowFactoryContracts: ethers.Contract[],
-  escrowAbis: object[],
 ) {
-  const currentBlock = await provider.getBlockNumber();
+  const currentBlock = await jsonRpcProvider.getBlockNumber();
   const batchSize = 10; // Alchemy free tier limit
   let factoryAddressToEscrowCreatedLogs: { [key: string]: ethers.EventLog[] } =
     {};
@@ -90,7 +65,8 @@ async function backfill(
     let escrowCreatedLogs: ethers.EventLog[] = [];
     for (; from <= currentBlock; from += batchSize) {
       const to = Math.min(from + batchSize - 1, currentBlock);
-      const escrowCreatedLog = await factoryContract.queryFilter(
+      const escrowCreatedLog = await queryWithRetry(
+        factoryContract,
         factoryContract.filters.EscrowCreated(),
         from,
         to,
@@ -110,25 +86,26 @@ async function backfill(
   ).flat();
   console.log("[DEBUG] Starting escrows scan...");
   for (const escrowCreatedLog of allEscrowCreatedLogs) {
-    const escrowContract = new ethers.Contract(
+    const escrowContract = createHTTPEscrowContracts(
       escrowCreatedLog.args._escrow,
-      escrowAbis,
-      provider,
     );
     let from = Math.max(escrowCreatedLog.blockNumber, lastIndexedBlock);
     for (; from <= currentBlock; from += batchSize) {
       const to = Math.min(from + batchSize - 1, currentBlock);
-      const depositedLog = await escrowContract.queryFilter(
+      const depositedLog = await queryWithRetry(
+        escrowContract,
         escrowContract.filters.Deposited(),
         from,
         to,
       );
-      const confirmedLog = await escrowContract.queryFilter(
+      const confirmedLog = await queryWithRetry(
+        escrowContract,
         escrowContract.filters.Confirmed(),
         from,
         to,
       );
-      const refundedLog = await escrowContract.queryFilter(
+      const refundedLog = await queryWithRetry(
+        escrowContract,
         escrowContract.filters.Refunded(),
         from,
         to,
@@ -314,6 +291,29 @@ async function upsertEvents(
   console.log("[DEBUG] Persisting refunded events");
   await Promise.all(refundedUpsertPromises);
   console.log("[DEBUG] Done persisting events");
+}
+
+async function queryWithRetry(
+  contract: ethers.Contract,
+  filter: ethers.ContractEventName,
+  from: number,
+  to: number,
+  maxRetries: number = 3,
+) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await contract.queryFilter(filter, from, to);
+    } catch (error: any) {
+      if (error?.error?.code === 429 && attempt < maxRetries - 1) {
+        const delay = 1000 * (attempt + 1);
+        console.log(`[DEBUG] Rate limited, retrying in ${delay}ms...`);
+        await sleep(delay);
+      } else {
+        throw error;
+      }
+    }
+  }
+  return [];
 }
 
 // Simple helper to tackle rate limiting issue from Alchemy free tier
