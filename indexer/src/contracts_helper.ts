@@ -2,12 +2,23 @@ import { ethers } from "ethers";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { EscrowStatus } from "../generated/prisma/client";
+
 export enum EventNames {
   ESCROW_CREATED = "EscrowCreated",
   DEPOSITED = "Deposited",
   CONFIRMED = "Confirmed",
   REFUNDED = "Refunded",
 }
+
+export const CONFIRMATIONS_REQUIRED = 12;
+
+export const ESCROW_STATUS_REVERTED_STATE_MACHINE = {
+  [EscrowStatus.AWAITING_DEPOSIT]: EscrowStatus.AWAITING_DEPOSIT,
+  [EscrowStatus.DEPOSITED]: EscrowStatus.AWAITING_DEPOSIT,
+  [EscrowStatus.CONFIRMED]: EscrowStatus.DEPOSITED,
+  [EscrowStatus.REFUNDED]: EscrowStatus.DEPOSITED,
+};
 
 export const deployments = JSON.parse(
   readFileSync(

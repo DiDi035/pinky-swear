@@ -38,13 +38,14 @@ model Escrows {
   updatedAt DateTime @updatedAt
   createdTxHash String
   createdBlockNumber Int
+  isFinalized Boolean @default(false)
   events Events[]
 }
 
 model Events {
   id String @id @default(uuid())
   escrowId String
-  escrow Escrows @relation(fields: [escrowId], references: [id])
+  escrow Escrows @relation(fields: [escrowId], references: [id], onDelete: Cascade)
   eventName EventName
   txHash String
   blockNumber Int
@@ -53,6 +54,8 @@ model Events {
   data Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  confirmations Int @default(0)
+  isFinalized Boolean @default(false)
 
   @@unique([txHash, logIndex])
 }
