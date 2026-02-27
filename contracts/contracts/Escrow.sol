@@ -86,6 +86,7 @@ contract Escrow is Initializable, ReentrancyGuard {
         }
 
         if (buyerConfirmed && sellerConfirmed) {
+            // NOTE: CEI violation: this is mitigated by the `nonReentrant` modifier
             (bool success,) = payable(seller).call{value: amount}("");
             require(success, "Transfer to seller failed");
             status = Status.CONFIRMED;
@@ -99,6 +100,7 @@ contract Escrow is Initializable, ReentrancyGuard {
             "Escrow is not deposited"
         );
         require(block.timestamp > deadline, "Escrow is not expired yet");
+        // NOTE: CEI violation: this is mitigated by the `nonReentrant` modifier
         (bool success,) = payable(buyer).call{value: amount}("");
         require(success, "Transfer to buyer failed");
         status = Status.REFUNDED;
