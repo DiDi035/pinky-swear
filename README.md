@@ -1,4 +1,4 @@
-# Pinky Swear
+# Pinky Swear (WIP !!!)
 
 Decentralized escrow dApp on Ethereum — Solidity smart contracts, event indexer, and REST API.
 
