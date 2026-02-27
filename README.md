@@ -102,3 +102,20 @@ pinky-swear/
 | API | Express 5 |
 | CI/CD | GitHub Actions |
 | Network | Ethereum Sepolia testnet |
+
+## TODOs
+- [ ] Write `indexer` unit-tests
+- [ ] Add necessary auth mechanism for APIs (for-FE APIs vs headless APIs?)
+- [ ] CI/CD pipeline for `indexer`
+- [ ] Build a nice user interface?
+- [ ] Improve `contracts` deployment: if the `commit` step is failed => stale address & abi remain in the repo and affect the indexer
+- [ ] websocket re-connect mechanism
+- [ ] improve error handlings & loggings
+- [ ] TBD
+
+## Potential improvements (temporarily out-of-scope)
+- [ ] During backfilling-on-startup process, or when the websocket crashes mid-way => events emitted during this time might be lost - how to prevent?
+- [ ] Add NatDoc documentation?
+- [ ] the indexer's backfilling-on-startup step seems heavy => any potential improvements?
+- [ ] Fix all Typescript errors/warnings here and there
+- [ ] TBD

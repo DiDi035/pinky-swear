@@ -45,6 +45,7 @@ app.get("/escrows/:address", async (req: Request, res: Response) => {
   res.json({ data: escrow });
 });
 
+// NOTE: 1st-attempt to support "confirmations block progress bar" on the UI, might be removed/changed later
 app.get("/escrows/:address/status", async (req: Request, res: Response) => {
   const escrow = await prisma.escrows.findUnique({
     where: { id: req.params.address as string },
@@ -79,6 +80,7 @@ app.get("/events/:id", async (req: Request, res: Response) => {
   res.json({ data: event });
 });
 
+// NOTE: 1st-attempt to support "confirmations block progress bar" on the UI, might be removed/changed later
 app.get("/events/:id/status", async (req: Request, res: Response) => {
   const event = await prisma.events.findUnique({
     where: { id: req.params.id as string },
