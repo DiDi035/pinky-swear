@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
+app.get("/health/check", (req: Request, res: Response) => {
+  res.json({ status: "ok" });
+});
+
 app.get("/escrows", async (req: Request, res: Response) => {
   const { buyer, seller, offset, limit, sort_by, order } = req.query;
 
