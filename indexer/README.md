@@ -62,23 +62,23 @@ flowchart TD
 
 ## API Endpoints
 
-| Method | Path | Query Params | Description |
-|--------|------|-------------|-------------|
-| `GET` | `/escrows` | `buyer`, `seller`, `offset`, `limit`, `order` | List escrows (paginated, max 100) |
-| `GET` | `/escrows/:address` | — | Get escrow with all events |
-| `GET` | `/escrows/:address/status` | — | Get escrow finalization status |
-| `GET` | `/events/:id` | — | Get a single event |
-| `GET` | `/events/:id/status` | — | Get event finalization status |
+| Method | Path                       | Query Params                                  | Description                       |
+| ------ | -------------------------- | --------------------------------------------- | --------------------------------- |
+| `GET`  | `/escrows`                 | `buyer`, `seller`, `offset`, `limit`, `order` | List escrows (paginated, max 100) |
+| `GET`  | `/escrows/:address`        | —                                             | Get escrow with all events        |
+| `GET`  | `/escrows/:address/status` | —                                             | Get escrow finalization status    |
+| `GET`  | `/events/:id`              | —                                             | Get a single event                |
+| `GET`  | `/events/:id/status`       | —                                             | Get event finalization status     |
 
 ## Database Schema
 
 Three Prisma models in `prisma/schema.prisma`:
 
-| Model | Key | Purpose |
-|-------|-----|---------|
-| **Escrows** | contract address | Escrow state (buyer, seller, amount, deadline, status) |
-| **Events** | uuid (unique on txHash + logIndex) | On-chain events linked to escrows |
-| **IndexerState** | singleton | Tracks `lastIndexedBlock` for resumable backfilling |
+| Model            | Key                                | Purpose                                                |
+| ---------------- | ---------------------------------- | ------------------------------------------------------ |
+| **Escrows**      | contract address                   | Escrow state (buyer, seller, amount, deadline, status) |
+| **Events**       | uuid (unique on txHash + logIndex) | On-chain events linked to escrows                      |
+| **IndexerState** | singleton                          | Tracks `lastIndexedBlock` for resumable backfilling    |
 
 ## Development
 
@@ -99,12 +99,12 @@ npx prisma migrate dev
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `RPC_HTTPS_URL` | Ethereum HTTP RPC (e.g. Alchemy) |
-| `RPC_WS_URL` | Ethereum WebSocket RPC |
-| `NETWORK` | Network name matching `contracts/deployments/{network}.json` |
+| Variable        | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `DATABASE_URL`  | PostgreSQL connection string                                 |
+| `RPC_HTTPS_URL` | Ethereum HTTP RPC (e.g. Alchemy)                             |
+| `RPC_WS_URL`    | Ethereum WebSocket RPC                                       |
+| `NETWORK`       | Network name matching `contracts/deployments/{network}.json` |
 
 ### Run
 
