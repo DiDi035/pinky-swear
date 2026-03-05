@@ -1,9 +1,14 @@
-node_modules
-.env
 .env.*
 !.env.example
 *.log
 .git
 .gitignore
 README.md
-generated
+indexer/node_modules
+indexer/generated
+indexer/.env
+indexer/README.md
+contracts/node_modules
+contracts/artifacts
+contracts/cache
+contracts/README.md
