@@ -1,0 +1,66 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: var(--bg-base);
+  border-bottom: 3px solid var(--ink);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.logoPinky {
+  color: var(--pink-pop);
+}
+
+.logoSwear {
+  color: var(--ink);
+}
+
+.links {
+  display: flex;
+  gap: 24px;
+}
+
+.link,
+.linkActive {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  transition: background 0.15s ease;
+}
+
+.link:hover {
+  background: rgba(26, 26, 46, 0.06);
+}
+
+.linkActive {
+  background: var(--pink-pop);
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}

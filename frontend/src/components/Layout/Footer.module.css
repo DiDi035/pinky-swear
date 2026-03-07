@@ -1,0 +1,27 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 32px;
+  border-top: 3px solid var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+
+.badge {
+  background: var(--sunny);
+  color: var(--ink);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--ink);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tagline {
+  opacity: 0.6;
+}
