@@ -1,0 +1,73 @@
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --bg-base: #FFF5E6;
+  --ink: #1A1A2E;
+  --pink-pop: #FF6B9D;
+  --mint-fresh: #4ECDC4;
+  --sunny: #FFE66D;
+  --lilac-dream: #C89BFF;
+  --tangerine: #FF8A5C;
+  --white: #FFFFFF;
+
+  /* Typography */
+  --font-display: 'Fredoka', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Borders */
+  --border-thick: 4px solid var(--ink);
+  --border-medium: 3px solid var(--ink);
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --radius-input: 8px;
+
+  /* Shadows (offset style, color overridden per-component) */
+  --shadow-sm: 4px 4px 0 var(--ink);
+  --shadow-md: 8px 8px 0;
+  --shadow-lg: 12px 12px 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-base);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+a {
+  color: var(--pink-pop);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+}
