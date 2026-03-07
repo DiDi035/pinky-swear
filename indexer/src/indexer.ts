@@ -146,7 +146,7 @@ async function upsertEvents(
   refundedLogs: ethers.EventLog[],
 ) {
   const escrowCreatedUpsertPromises = escrowCreatedLogs.map(async (log) => {
-    return prisma.$transaction([
+    return await prisma.$transaction([
       prisma.escrows.upsert({
         where: { id: log.args._escrow },
         create: {
@@ -194,7 +194,7 @@ async function upsertEvents(
   });
 
   const depositedUpsertPromises = depositedLogs.map(async (log) => {
-    return prisma.$transaction([
+    return await prisma.$transaction([
       prisma.events.upsert({
         where: {
           txHash_logIndex: { txHash: log.transactionHash, logIndex: log.index },
@@ -224,7 +224,7 @@ async function upsertEvents(
   });
 
   const confirmedUpsertPromises = confirmedLogs.map(async (log) => {
-    return prisma.$transaction([
+    return await prisma.$transaction([
       prisma.events.upsert({
         where: {
           txHash_logIndex: { txHash: log.transactionHash, logIndex: log.index },
@@ -254,7 +254,7 @@ async function upsertEvents(
   });
 
   const refundedUpsertPromises = refundedLogs.map(async (log) => {
-    return prisma.$transaction([
+    return await prisma.$transaction([
       prisma.events.upsert({
         where: {
           txHash_logIndex: { txHash: log.transactionHash, logIndex: log.index },
