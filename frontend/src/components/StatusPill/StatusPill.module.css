@@ -1,0 +1,25 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.sm {
+  padding: 2px 10px;
+  font-size: 0.75rem;
+}
+
+.md {
+  padding: 4px 14px;
+  font-size: 0.875rem;
+}
+
+.lg {
+  padding: 8px 24px;
+  font-size: 1.25rem;
+}
