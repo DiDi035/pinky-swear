@@ -10,6 +10,7 @@ import {
 } from "./contracts_helper";
 
 export async function startIndexer() {
+  console.log(`[DEBUG] DB url: ${process.env.DATABASE_URL}`)
   console.log("[DEBUG] Starting indexer...");
 
   const factoryAddressToStartBlock = deployments.factories.reduce(
