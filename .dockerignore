@@ -12,3 +12,5 @@ contracts/node_modules
 contracts/artifacts
 contracts/cache
 contracts/README.md
+frontend/node_modules
+frontend/dist
