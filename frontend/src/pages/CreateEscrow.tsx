@@ -1,50 +1,70 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
-import { parseEther, isAddress } from 'viem'
-import { ESCROW_FACTORY_ABI, FACTORY_ADDRESS } from '../lib/contracts'
-import styles from './CreateEscrow.module.css'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  useAccount,
+  useReadContract,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { parseEther, isAddress } from "viem";
+import { ESCROW_FACTORY_ABI, FACTORY_ADDRESS } from "../lib/contracts";
+import styles from "./CreateEscrow.module.css";
 
 export default function CreateEscrow() {
-  const navigate = useNavigate()
-  const { address: walletAddress } = useAccount()
+  const navigate = useNavigate();
+  const { address: walletAddress } = useAccount();
 
   const { data: ownerAddress } = useReadContract({
     address: FACTORY_ADDRESS,
     abi: ESCROW_FACTORY_ABI,
-    functionName: 'owner',
-  })
+    functionName: "owner",
+  });
 
-  const isOwner = walletAddress && ownerAddress && walletAddress.toLowerCase() === (ownerAddress as string).toLowerCase()
+  const isOwner =
+    walletAddress &&
+    ownerAddress &&
+    walletAddress.toLowerCase() === (ownerAddress as string).toLowerCase();
 
-  const [buyer, setBuyer] = useState('')
-  const [seller, setSeller] = useState('')
-  const [amount, setAmount] = useState('')
-  const [deadlineDays, setDeadlineDays] = useState('')
+  const [buyer, setBuyer] = useState("");
+  const [seller, setSeller] = useState("");
+  const [amount, setAmount] = useState("");
+  const [deadlineDays, setDeadlineDays] = useState("");
 
-  const { writeContract, data: txHash, isPending } = useWriteContract()
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
+  const { writeContract, data: txHash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
 
   if (isSuccess) {
-    setTimeout(() => navigate('/escrows'), 3000)
+    setTimeout(() => navigate("/escrows"), 3000);
   }
 
-  const isValid = isAddress(buyer) && isAddress(seller) && buyer !== seller && Number(amount) > 0 && Number(deadlineDays) > 0
+  const isValid =
+    isAddress(buyer) &&
+    isAddress(seller) &&
+    buyer !== seller &&
+    Number(amount) > 0 &&
+    Number(deadlineDays) > 0;
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!isValid) return
+    e.preventDefault();
+    if (!isValid) return;
 
-    const deadlineSeconds = BigInt(Math.floor(Number(deadlineDays) * 86400))
-    const amountWei = parseEther(amount)
+    const deadlineSeconds = BigInt(Math.floor(Number(deadlineDays) * 86400));
+    const amountWei = parseEther(amount);
 
     writeContract({
       address: FACTORY_ADDRESS,
       abi: ESCROW_FACTORY_ABI,
-      functionName: 'createEscrow',
-      args: [buyer as `0x${string}`, seller as `0x${string}`, amountWei, deadlineSeconds],
-    })
-  }
+      functionName: "createEscrow",
+      args: [
+        buyer as `0x${string}`,
+        seller as `0x${string}`,
+        amountWei,
+        deadlineSeconds,
+      ],
+    });
+  };
 
   return (
     <div className={styles.page}>
@@ -56,13 +76,14 @@ export default function CreateEscrow() {
         </div>
       ) : !isOwner ? (
         <div className={`${styles.message} fade-up stagger-2`}>
-          Only the factory owner can create escrows. Your address is not the owner.
+          Only the factory owner can create escrows. Your address is not the
+          owner.
         </div>
       ) : (
         <form
           onSubmit={handleSubmit}
           className={`${styles.card} fade-up stagger-2`}
-          style={{ boxShadow: '8px 8px 0 var(--pink-pop)' }}
+          style={{ boxShadow: "8px 8px 0 var(--pink-pop)" }}
         >
           <div className={styles.field}>
             <label className={styles.label}>Buyer Address</label>
@@ -116,8 +137,12 @@ export default function CreateEscrow() {
           {isValid && (
             <div className={styles.preview}>
               <h3>Summary</h3>
-              <p><strong>Amount:</strong> {amount} ETH</p>
-              <p><strong>Deadline:</strong> {deadlineDays} days from creation</p>
+              <p>
+                <strong>Amount:</strong> {amount} ETH
+              </p>
+              <p>
+                <strong>Deadline:</strong> {deadlineDays} days from creation
+              </p>
             </div>
           )}
 
@@ -131,11 +156,15 @@ export default function CreateEscrow() {
               className={styles.submitBtn}
               disabled={!isValid || isPending || isConfirming}
             >
-              {isPending ? 'Waiting for wallet...' : isConfirming ? 'Confirming...' : 'Create Escrow'}
+              {isPending
+                ? "Waiting for wallet..."
+                : isConfirming
+                  ? "Confirming..."
+                  : "Create Escrow"}
             </button>
           )}
         </form>
       )}
     </div>
-  )
+  );
 }

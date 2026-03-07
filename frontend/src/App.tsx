@@ -1,16 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { WagmiProvider } from 'wagmi'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
-import { config } from './wagmi'
-import { Nav, Footer, PageWrapper } from './components/Layout'
-import Home from './pages/Home'
-import EscrowList from './pages/EscrowList'
-import EscrowDetail from './pages/EscrowDetail'
-import CreateEscrow from './pages/CreateEscrow'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
+import { config } from "./wagmi";
+import { Nav, Footer, PageWrapper } from "./components/Layout";
+import Home from "./pages/Home";
+import EscrowList from "./pages/EscrowList";
+import EscrowDetail from "./pages/EscrowDetail";
+import CreateEscrow from "./pages/CreateEscrow";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
@@ -32,5 +32,5 @@ export default function App() {
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 }

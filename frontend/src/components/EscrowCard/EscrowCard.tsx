@@ -1,18 +1,18 @@
-import { Link } from 'react-router-dom'
-import type { EscrowData } from '../../lib/api'
-import { formatEth, statusColor } from '../../lib/format'
-import { useCountdown } from '../../hooks/useCountdown'
-import StatusPill from '../StatusPill/StatusPill'
-import AddressDisplay from '../AddressDisplay/AddressDisplay'
-import styles from './EscrowCard.module.css'
+import { Link } from "react-router-dom";
+import type { EscrowData } from "../../lib/api";
+import { formatEth, statusColor } from "../../lib/format";
+import { useCountdown } from "../../hooks/useCountdown";
+import StatusPill from "../StatusPill/StatusPill";
+import AddressDisplay from "../AddressDisplay/AddressDisplay";
+import styles from "./EscrowCard.module.css";
 
 interface Props {
-  escrow: EscrowData
+  escrow: EscrowData;
 }
 
 export default function EscrowCard({ escrow }: Props) {
-  const { timeLeft } = useCountdown(escrow.deadline)
-  const shadowColor = statusColor(escrow.status)
+  const { timeLeft } = useCountdown(escrow.deadline);
+  const shadowColor = statusColor(escrow.status);
 
   return (
     <Link
@@ -40,5 +40,5 @@ export default function EscrowCard({ escrow }: Props) {
         </div>
       </div>
     </Link>
-  )
+  );
 }

@@ -1,22 +1,22 @@
-import type { EventData } from '../../lib/api'
-import { statusColor } from '../../lib/format'
-import styles from './EventTimeline.module.css'
+import type { EventData } from "../../lib/api";
+import { statusColor } from "../../lib/format";
+import styles from "./EventTimeline.module.css";
 
 interface Props {
-  events: EventData[]
+  events: EventData[];
 }
 
 const EVENT_LABELS: Record<string, string> = {
-  ESCROW_CREATED: 'Escrow Created',
-  DEPOSITED: 'Funds Deposited',
-  CONFIRMED: 'Delivery Confirmed',
-  REFUNDED: 'Funds Refunded',
-}
+  ESCROW_CREATED: "Escrow Created",
+  DEPOSITED: "Funds Deposited",
+  CONFIRMED: "Delivery Confirmed",
+  REFUNDED: "Funds Refunded",
+};
 
 export default function EventTimeline({ events }: Props) {
   const sorted = [...events].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
 
   return (
     <div className={styles.timeline}>
@@ -28,7 +28,9 @@ export default function EventTimeline({ events }: Props) {
           />
           <div className={styles.content}>
             <div className={styles.header}>
-              <span className={styles.name}>{EVENT_LABELS[event.eventName] || event.eventName}</span>
+              <span className={styles.name}>
+                {EVENT_LABELS[event.eventName] || event.eventName}
+              </span>
               <span className={styles.time}>
                 {new Date(event.createdAt).toLocaleString()}
               </span>
@@ -53,5 +55,5 @@ export default function EventTimeline({ events }: Props) {
         </div>
       ))}
     </div>
-  )
+  );
 }

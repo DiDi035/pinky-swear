@@ -1,24 +1,24 @@
-import { useState } from 'react'
-import { useEscrows } from '../hooks/useEscrows'
-import EscrowCard from '../components/EscrowCard/EscrowCard'
-import styles from './EscrowList.module.css'
+import { useState } from "react";
+import { useEscrows } from "../hooks/useEscrows";
+import EscrowCard from "../components/EscrowCard/EscrowCard";
+import styles from "./EscrowList.module.css";
 
-const PAGE_SIZE = 12
+const PAGE_SIZE = 12;
 
 export default function EscrowList() {
-  const [buyer, setBuyer] = useState('')
-  const [seller, setSeller] = useState('')
-  const [offset, setOffset] = useState(0)
+  const [buyer, setBuyer] = useState("");
+  const [seller, setSeller] = useState("");
+  const [offset, setOffset] = useState(0);
 
   const { escrows, total, loading, error } = useEscrows({
     buyer: buyer || undefined,
     seller: seller || undefined,
     offset,
     limit: PAGE_SIZE,
-  })
+  });
 
-  const totalPages = Math.ceil(total / PAGE_SIZE)
-  const currentPage = Math.floor(offset / PAGE_SIZE) + 1
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const currentPage = Math.floor(offset / PAGE_SIZE) + 1;
 
   return (
     <div className={styles.page}>
@@ -30,18 +30,26 @@ export default function EscrowList() {
           type="text"
           placeholder="Filter by buyer address..."
           value={buyer}
-          onChange={(e) => { setBuyer(e.target.value); setOffset(0) }}
+          onChange={(e) => {
+            setBuyer(e.target.value);
+            setOffset(0);
+          }}
         />
         <input
           className={styles.input}
           type="text"
           placeholder="Filter by seller address..."
           value={seller}
-          onChange={(e) => { setSeller(e.target.value); setOffset(0) }}
+          onChange={(e) => {
+            setSeller(e.target.value);
+            setOffset(0);
+          }}
         />
       </div>
 
-      {error && <div className={styles.error}>Failed to load escrows: {error}</div>}
+      {error && (
+        <div className={styles.error}>Failed to load escrows: {error}</div>
+      )}
 
       {loading ? (
         <div className={styles.grid}>
@@ -57,7 +65,10 @@ export default function EscrowList() {
         <>
           <div className={styles.grid}>
             {escrows.map((escrow, i) => (
-              <div key={escrow.id} className={`fade-up stagger-${Math.min(i + 3, 6)}`}>
+              <div
+                key={escrow.id}
+                className={`fade-up stagger-${Math.min(i + 3, 6)}`}
+              >
                 <EscrowCard escrow={escrow} />
               </div>
             ))}
@@ -87,5 +98,5 @@ export default function EscrowList() {
         </>
       )}
     </div>
-  )
+  );
 }

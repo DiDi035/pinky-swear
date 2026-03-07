@@ -1,6 +1,6 @@
-import { NavLink } from 'react-router-dom'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import styles from './Nav.module.css'
+import { NavLink } from "react-router-dom";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import styles from "./Nav.module.css";
 
 export default function Nav() {
   return (
@@ -11,10 +11,20 @@ export default function Nav() {
       </NavLink>
 
       <div className={styles.links}>
-        <NavLink to="/escrows" className={({ isActive }) => isActive ? styles.linkActive : styles.link}>
+        <NavLink
+          to="/escrows"
+          className={({ isActive }) =>
+            isActive ? styles.linkActive : styles.link
+          }
+        >
           Escrows
         </NavLink>
-        <NavLink to="/create" className={({ isActive }) => isActive ? styles.linkActive : styles.link}>
+        <NavLink
+          to="/create"
+          className={({ isActive }) =>
+            isActive ? styles.linkActive : styles.link
+          }
+        >
           Create
         </NavLink>
       </div>
@@ -23,5 +33,5 @@ export default function Nav() {
         <ConnectButton showBalance={false} />
       </div>
     </nav>
-  )
+  );
 }

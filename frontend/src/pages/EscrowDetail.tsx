@@ -1,64 +1,70 @@
-import { useParams } from 'react-router-dom'
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
-import { useEscrow } from '../hooks/useEscrow'
-import { useCountdown } from '../hooks/useCountdown'
-import { formatEth, statusColor } from '../lib/format'
-import { ESCROW_ABI } from '../lib/contracts'
-import StatusPill from '../components/StatusPill/StatusPill'
-import AddressDisplay from '../components/AddressDisplay/AddressDisplay'
-import ProgressStepper from '../components/ProgressStepper/ProgressStepper'
-import EventTimeline from '../components/EventTimeline/EventTimeline'
-import styles from './EscrowDetail.module.css'
+import { useParams } from "react-router-dom";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { useEscrow } from "../hooks/useEscrow";
+import { useCountdown } from "../hooks/useCountdown";
+import { formatEth, statusColor } from "../lib/format";
+import { ESCROW_ABI } from "../lib/contracts";
+import StatusPill from "../components/StatusPill/StatusPill";
+import AddressDisplay from "../components/AddressDisplay/AddressDisplay";
+import ProgressStepper from "../components/ProgressStepper/ProgressStepper";
+import EventTimeline from "../components/EventTimeline/EventTimeline";
+import styles from "./EscrowDetail.module.css";
 
 export default function EscrowDetail() {
-  const { address } = useParams<{ address: string }>()
-  const { address: walletAddress } = useAccount()
-  const { escrow, loading, error, refetch } = useEscrow(address!)
-  const { timeLeft, expired } = useCountdown(escrow?.deadline || 0)
+  const { address } = useParams<{ address: string }>();
+  const { address: walletAddress } = useAccount();
+  const { escrow, loading, error, refetch } = useEscrow(address!);
+  const { timeLeft, expired } = useCountdown(escrow?.deadline || 0);
 
-  const { writeContract, data: txHash, isPending } = useWriteContract()
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
+  const { writeContract, data: txHash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
 
   if (isSuccess) {
-    refetch()
+    refetch();
   }
 
   if (loading) {
-    return <div className={styles.skeleton} />
+    return <div className={styles.skeleton} />;
   }
 
   if (error || !escrow) {
-    return <div className={styles.error}>Escrow not found.</div>
+    return <div className={styles.error}>Escrow not found.</div>;
   }
 
-  const isBuyer = walletAddress?.toLowerCase() === escrow.buyer.toLowerCase()
-  const isSeller = walletAddress?.toLowerCase() === escrow.seller.toLowerCase()
-  const shadowColor = statusColor(escrow.status)
+  const isBuyer = walletAddress?.toLowerCase() === escrow.buyer.toLowerCase();
+  const isSeller = walletAddress?.toLowerCase() === escrow.seller.toLowerCase();
+  const shadowColor = statusColor(escrow.status);
 
   const handleDeposit = () => {
     writeContract({
       address: address as `0x${string}`,
       abi: ESCROW_ABI,
-      functionName: 'deposit',
+      functionName: "deposit",
       value: BigInt(escrow.amount),
-    })
-  }
+    });
+  };
 
   const handleConfirm = () => {
     writeContract({
       address: address as `0x${string}`,
       abi: ESCROW_ABI,
-      functionName: 'confirmDelivery',
-    })
-  }
+      functionName: "confirmDelivery",
+    });
+  };
 
   const handleRefund = () => {
     writeContract({
       address: address as `0x${string}`,
       abi: ESCROW_ABI,
-      functionName: 'refund',
-    })
-  }
+      functionName: "refund",
+    });
+  };
 
   return (
     <div className={styles.page}>
@@ -89,33 +95,64 @@ export default function EscrowDetail() {
         </div>
 
         <div className={styles.deadline}>
-          {expired ? 'Deadline passed' : `Deadline: ${timeLeft}`}
+          {expired ? "Deadline passed" : `Deadline: ${timeLeft}`}
         </div>
 
         <ProgressStepper status={escrow.status} />
 
         {/* Action Zone */}
         <div className={styles.actions}>
-          {escrow.status === 'AWAITING_DEPOSIT' && isBuyer && (
-            <button className={styles.actionBtn} style={{ background: 'var(--mint-fresh)' }} onClick={handleDeposit} disabled={isPending || isConfirming}>
-              {isPending ? 'Waiting for wallet...' : isConfirming ? 'Confirming...' : `Deposit ${formatEth(escrow.amount)} ETH`}
+          {escrow.status === "AWAITING_DEPOSIT" && isBuyer && (
+            <button
+              className={styles.actionBtn}
+              style={{ background: "var(--mint-fresh)" }}
+              onClick={handleDeposit}
+              disabled={isPending || isConfirming}
+            >
+              {isPending
+                ? "Waiting for wallet..."
+                : isConfirming
+                  ? "Confirming..."
+                  : `Deposit ${formatEth(escrow.amount)} ETH`}
             </button>
           )}
 
-          {escrow.status === 'DEPOSITED' && (isBuyer || isSeller) && !expired && (
-            <button className={styles.actionBtn} style={{ background: 'var(--sunny)' }} onClick={handleConfirm} disabled={isPending || isConfirming}>
-              {isPending ? 'Waiting for wallet...' : isConfirming ? 'Confirming...' : 'Confirm Delivery'}
-            </button>
-          )}
+          {escrow.status === "DEPOSITED" &&
+            (isBuyer || isSeller) &&
+            !expired && (
+              <button
+                className={styles.actionBtn}
+                style={{ background: "var(--sunny)" }}
+                onClick={handleConfirm}
+                disabled={isPending || isConfirming}
+              >
+                {isPending
+                  ? "Waiting for wallet..."
+                  : isConfirming
+                    ? "Confirming..."
+                    : "Confirm Delivery"}
+              </button>
+            )}
 
-          {escrow.status === 'DEPOSITED' && isBuyer && expired && (
-            <button className={styles.actionBtn} style={{ background: 'var(--lilac-dream)' }} onClick={handleRefund} disabled={isPending || isConfirming}>
-              {isPending ? 'Waiting for wallet...' : isConfirming ? 'Confirming...' : 'Refund'}
+          {escrow.status === "DEPOSITED" && isBuyer && expired && (
+            <button
+              className={styles.actionBtn}
+              style={{ background: "var(--lilac-dream)" }}
+              onClick={handleRefund}
+              disabled={isPending || isConfirming}
+            >
+              {isPending
+                ? "Waiting for wallet..."
+                : isConfirming
+                  ? "Confirming..."
+                  : "Refund"}
             </button>
           )}
 
           {!walletAddress && (
-            <p className={styles.connectHint}>Connect your wallet to interact with this escrow.</p>
+            <p className={styles.connectHint}>
+              Connect your wallet to interact with this escrow.
+            </p>
           )}
         </div>
       </div>
@@ -127,5 +164,5 @@ export default function EscrowDetail() {
         </div>
       )}
     </div>
-  )
+  );
 }

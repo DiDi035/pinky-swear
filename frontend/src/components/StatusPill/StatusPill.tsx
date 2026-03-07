@@ -1,12 +1,12 @@
-import { statusColor, statusLabel } from '../../lib/format'
-import styles from './StatusPill.module.css'
+import { statusColor, statusLabel } from "../../lib/format";
+import styles from "./StatusPill.module.css";
 
 interface Props {
-  status: string
-  size?: 'sm' | 'md' | 'lg'
+  status: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function StatusPill({ status, size = 'md' }: Props) {
+export default function StatusPill({ status, size = "md" }: Props) {
   return (
     <span
       className={`${styles.pill} ${styles[size]}`}
@@ -14,5 +14,5 @@ export default function StatusPill({ status, size = 'md' }: Props) {
     >
       {statusLabel(status)}
     </span>
-  )
+  );
 }
