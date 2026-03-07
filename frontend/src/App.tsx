@@ -5,6 +5,10 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { config } from './wagmi'
 import { Nav, Footer, PageWrapper } from './components/Layout'
+import Home from './pages/Home'
+import EscrowList from './pages/EscrowList'
+import EscrowDetail from './pages/EscrowDetail'
+import CreateEscrow from './pages/CreateEscrow'
 
 const queryClient = new QueryClient()
 
@@ -17,10 +21,10 @@ export default function App() {
             <Nav />
             <PageWrapper>
               <Routes>
-                <Route path="/" element={<div>Home</div>} />
-                <Route path="/escrows" element={<div>Escrows</div>} />
-                <Route path="/escrows/:address" element={<div>Escrow Detail</div>} />
-                <Route path="/create" element={<div>Create</div>} />
+                <Route path="/" element={<Home />} />
+                <Route path="/escrows" element={<EscrowList />} />
+                <Route path="/escrows/:address" element={<EscrowDetail />} />
+                <Route path="/create" element={<CreateEscrow />} />
               </Routes>
             </PageWrapper>
             <Footer />
