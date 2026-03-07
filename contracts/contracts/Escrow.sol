@@ -39,23 +39,29 @@ contract Escrow is Initializable, ReentrancyGuard {
         sellerConfirmed = false;
     }
 
-    event Deposited(address indexed _escrow, address indexed _buyer, uint _amount);
-    event Confirmed(address indexed _escrow, address indexed _seller, uint _amount);
-    event Refunded(address indexed _escrow, address indexed _buyer, uint _amount);
+    event Deposited(
+        address indexed _escrow,
+        address indexed _buyer,
+        uint _amount
+    );
+    event Confirmed(
+        address indexed _escrow,
+        address indexed _seller,
+        uint _amount
+    );
+    event Refunded(
+        address indexed _escrow,
+        address indexed _buyer,
+        uint _amount
+    );
 
     modifier onlyBuyer() {
-        require(
-            msg.sender == buyer,
-            "Only buyer can call this function"
-        );
+        require(msg.sender == buyer, "Only buyer can call this function");
         _;
     }
 
     modifier onlySeller() {
-        require(
-            msg.sender == seller,
-            "Only seller can call this function"
-        );
+        require(msg.sender == seller, "Only seller can call this function");
         _;
     }
 
@@ -67,9 +73,15 @@ contract Escrow is Initializable, ReentrancyGuard {
         _;
     }
 
-    function deposit() payable external onlyBuyer nonReentrant {
-        require(status == Status.AWAITING_DEPOSIT, "Escrow is not awaiting deposit");
-        require(msg.value == amount, "Amount sent does not match the escrow amount");
+    function deposit() external payable onlyBuyer nonReentrant {
+        require(
+            status == Status.AWAITING_DEPOSIT,
+            "Escrow is not awaiting deposit"
+        );
+        require(
+            msg.value == amount,
+            "Amount sent does not match the escrow amount"
+        );
         status = Status.DEPOSITED;
         emit Deposited(address(this), msg.sender, msg.value);
     }
@@ -87,7 +99,7 @@ contract Escrow is Initializable, ReentrancyGuard {
 
         if (buyerConfirmed && sellerConfirmed) {
             // NOTE: CEI violation: this is mitigated by the `nonReentrant` modifier
-            (bool success,) = payable(seller).call{value: amount}("");
+            (bool success, ) = payable(seller).call{value: amount}("");
             require(success, "Transfer to seller failed");
             status = Status.CONFIRMED;
             emit Confirmed(address(this), seller, amount);
@@ -95,27 +107,20 @@ contract Escrow is Initializable, ReentrancyGuard {
     }
 
     function refund() external onlyBuyer nonReentrant {
-        require(
-            status == Status.DEPOSITED,
-            "Escrow is not deposited"
-        );
+        require(status == Status.DEPOSITED, "Escrow is not deposited");
         require(block.timestamp > deadline, "Escrow is not expired yet");
         // NOTE: CEI violation: this is mitigated by the `nonReentrant` modifier
-        (bool success,) = payable(buyer).call{value: amount}("");
+        (bool success, ) = payable(buyer).call{value: amount}("");
         require(success, "Transfer to buyer failed");
         status = Status.REFUNDED;
         emit Refunded(address(this), msg.sender, amount);
     }
 
-    function getDetails() external view returns (
-        address,
-        address,
-        uint,
-        uint,
-        Status,
-        bool,
-        bool
-    ) {
+    function getDetails()
+        external
+        view
+        returns (address, address, uint, uint, Status, bool, bool)
+    {
         return (
             buyer,
             seller,
