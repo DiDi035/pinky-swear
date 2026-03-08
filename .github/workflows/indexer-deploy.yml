@@ -17,4 +17,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: fly deploy --config fly.indexer.toml
+      - run: flyctl deploy --config fly.indexer.toml --remote-only
