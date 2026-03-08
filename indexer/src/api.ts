@@ -1,12 +1,15 @@
 import express from "express";
+import cors from "cors";
 import { Request, Response } from "express";
 import { prisma } from "./db";
 import { EventName } from "../generated/prisma/client";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
 
 app.use(express.json());
+app.use(cors({ origin: CORS_ORIGIN }));
 
 app.get("/health/check", (req: Request, res: Response) => {
   res.json({ status: "ok" });
