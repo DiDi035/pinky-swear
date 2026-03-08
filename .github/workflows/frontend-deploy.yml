@@ -1,0 +1,20 @@
+name: Frontend deploy
+on:
+  push:
+    branches:
+      - master
+    paths: ["frontend/**", "fly.frontend.toml", "contracts/deployments/**"]
+  workflow_dispatch:
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_KEY }}
+concurrency:
+  group: frontend-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --config fly.frontend.toml --build-arg VITE_API_URL="https://pinky-swear.fly.dev" --remote-only
