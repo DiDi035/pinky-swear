@@ -40,7 +40,9 @@
   border-radius: var(--radius-pill);
   text-decoration: none;
   box-shadow: 4px 4px 0 var(--ink);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
 }
 
 .cta:hover {

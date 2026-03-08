@@ -32,7 +32,9 @@
   font-size: 1rem;
   background: var(--white);
   color: var(--ink);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .filled {
