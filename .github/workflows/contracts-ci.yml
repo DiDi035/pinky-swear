@@ -3,8 +3,10 @@ name: Contracts CI
 on:
   push:
     branches: [master]
+    paths: ["contracts/**"]
   pull_request:
     branches: [master]
+    paths: ["contracts/**"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
