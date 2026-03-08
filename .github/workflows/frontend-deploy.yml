@@ -6,7 +6,7 @@ on:
     paths: ["frontend/**", "fly.frontend.toml", "contracts/deployments/**"]
   workflow_dispatch:
 env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_KEY }}
+  FLY_API_TOKEN: ${{ secrets.FLY_FRONTEND_KEY }}
 concurrency:
   group: frontend-deploy
   cancel-in-progress: false
