@@ -1,8 +1,8 @@
 <img src="frontend/public/hands.svg" width="250" alt="Pinky Swear">
 
-# Pinky Swear (WIP !!!)
+# Pinky Swear
 
-Decentralized escrow dApp on Ethereum — Solidity smart contracts, event indexer, and REST API.
+Decentralized escrow dApp on Ethereum
 
 ## How It Works
 
