@@ -6,7 +6,8 @@ export default function Nav() {
   return (
     <nav className={styles.nav}>
       <NavLink to="/" className={styles.logo}>
-        <img src="/hands.svg" alt="Pinky Swear" className={styles.logoIcon} />
+        <span className={styles.logoPinky}>pinky</span>
+        <span className={styles.logoSwear}>_swear</span>
       </NavLink>
 
       <div className={styles.links}>

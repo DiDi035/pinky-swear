@@ -17,10 +17,12 @@
   text-decoration: none;
 }
 
-.logoIcon {
-  height: 36px;
-  width: auto;
-  display: block;
+.logoPinky {
+  color: var(--pink-pop);
+}
+
+.logoSwear {
+  color: var(--ink);
 }
 
 .links {
