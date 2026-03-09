@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-296 -150 592 220">
+
+  <!-- ===== RIGHT HAND (mint) - drawn first, behind ===== -->
+
+  <!-- Right ink outline -->
+  <g fill="#1a1a2e">
+    <path d="M 288 -6 Q 288 -50, 249 -50 L 75 -50 Q 47 -50, 47 -22 L 47 22 Q 47 50, 75 50 L 249 50 Q 288 50, 288 12 Z"/>
+    <circle cx="75" cy="-58" r="27"/>
+    <circle cx="102" cy="-60" r="25"/>
+    <circle cx="127" cy="-56" r="23"/>
+    <circle cx="149" cy="-48" r="21"/>
+    <ellipse cx="63" cy="33" rx="29" ry="19"/>
+    <path d="M 50 -24 C 34 -26, 24 -44, 16 -66 C 8 -90, -2 -110, -20 -118 C -34 -125, -44 -118, -44 -102 C -44 -88, -35 -77, -24 -68 C -14 -61, -7 -57, -3 -50" stroke="#1a1a2e" stroke-width="42" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- Right fill -->
+  <g fill="#4ecdc4">
+    <path d="M 280 -2 Q 280 -38, 245 -38 L 75 -38 Q 55 -38, 55 -18 L 55 18 Q 55 38, 75 38 L 245 38 Q 280 38, 280 8 Z"/>
+    <circle cx="75" cy="-52" r="22"/>
+    <circle cx="100" cy="-54" r="20"/>
+    <circle cx="123" cy="-50" r="18"/>
+    <circle cx="143" cy="-42" r="16"/>
+    <ellipse cx="63" cy="28" rx="24" ry="14"/>
+    <path d="M 50 -20 C 34 -22, 24 -38, 16 -58 C 8 -80, -2 -98, -18 -106 C -30 -112, -40 -106, -40 -92 C -40 -80, -32 -70, -22 -62 C -14 -56, -7 -52, -3 -46" stroke="#4ecdc4" stroke-width="30" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- ===== LEFT HAND (pink) - drawn second, in front ===== -->
+
+  <!-- Left ink outline -->
+  <g fill="#1a1a2e">
+    <path d="M -288 -6 Q -288 -50, -249 -50 L -75 -50 Q -47 -50, -47 -22 L -47 22 Q -47 50, -75 50 L -249 50 Q -288 50, -288 12 Z"/>
+    <circle cx="-75" cy="-58" r="27"/>
+    <circle cx="-102" cy="-60" r="25"/>
+    <circle cx="-127" cy="-56" r="23"/>
+    <circle cx="-149" cy="-48" r="21"/>
+    <ellipse cx="-63" cy="33" rx="29" ry="19"/>
+    <path d="M -50 -24 C -34 -26, -24 -44, -16 -66 C -8 -90, 2 -110, 20 -118 C 34 -125, 44 -118, 44 -102 C 44 -88, 35 -77, 24 -68 C 14 -61, 7 -57, 3 -50" stroke="#1a1a2e" stroke-width="42" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- Left fill -->
+  <g fill="#ff6b9d">
+    <path d="M -280 -2 Q -280 -38, -245 -38 L -75 -38 Q -55 -38, -55 -18 L -55 18 Q -55 38, -75 38 L -245 38 Q -280 38, -280 8 Z"/>
+    <circle cx="-75" cy="-52" r="22"/>
+    <circle cx="-100" cy="-54" r="20"/>
+    <circle cx="-123" cy="-50" r="18"/>
+    <circle cx="-143" cy="-42" r="16"/>
+    <ellipse cx="-63" cy="28" rx="24" ry="14"/>
+    <path d="M -50 -20 C -34 -22, -24 -38, -16 -58 C -8 -80, 2 -98, 18 -106 C 30 -112, 40 -106, 40 -92 C 40 -80, 32 -70, 22 -62 C 14 -56, 7 -52, 3 -46" stroke="#ff6b9d" stroke-width="30" stroke-linecap="round" fill="none"/>
+  </g>
+
+</svg>
